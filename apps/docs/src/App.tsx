@@ -9,18 +9,53 @@ interface IconMeta {
   svg: string;
 }
 
+function getInitialUrlState() {
+  const params = new URLSearchParams(window.location.search);
+  const rawColor = params.get('color');
+  const validColor = rawColor && /^[0-9a-fA-F]{6}$/.test(rawColor) ? `#${rawColor}` : '#ccff00';
+
+  const rawSize = Number(params.get('size'));
+  const validSize = rawSize >= 16 && rawSize <= 48 ? rawSize : 32;
+
+  const rawStroke = Number(params.get('stroke'));
+  const validStroke = rawStroke >= 1 && rawStroke <= 3 ? rawStroke : 2;
+
+  return {
+    q: params.get('q') || '',
+    color: validColor,
+    size: validSize,
+    stroke: validStroke,
+  };
+}
+
 export function App() {
-  const [search, setSearch] = useState('');
-  const [size, setSize] = useState(32);
-  const [strokeWidth, setStrokeWidth] = useState(2);
-  const [color, setColor] = useState('#ccff00');
+  const initial = getInitialUrlState();
+  const [search, setSearch] = useState(initial.q);
+  const [size, setSize] = useState(initial.size);
+  const [strokeWidth, setStrokeWidth] = useState(initial.stroke);
+  const [color, setColor] = useState(initial.color);
   const [selectedIcon, setSelectedIcon] = useState<IconMeta | null>(null);
-  const [copiedType, setCopiedType] = useState<'svg' | 'jsx' | null>(null);
+  const [copiedType, setCopiedType] = useState<'svg' | 'jsx' | 'url' | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
 
   const list: IconMeta[] = Array.isArray(iconsMeta) ? iconsMeta : [];
+
+  // Sync customizer state to URL cleanly without reloading
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (search.trim()) params.set('q', search.trim());
+    if (color.toLowerCase() !== '#ccff00') params.set('color', color.replace('#', ''));
+    if (size !== 32) params.set('size', String(size));
+    if (strokeWidth !== 2) params.set('stroke', String(strokeWidth));
+
+    const queryString = params.toString();
+    const newUrl = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
+    window.history.replaceState(null, '', newUrl);
+  }, [search, color, size, strokeWidth]);
+
+  const query = search.trim().toLowerCase();
   const filtered = list.filter((icon) =>
-    icon.name.toLowerCase().includes(search.toLowerCase())
+    !query || icon.name.toLowerCase().includes(query)
   );
 
   useEffect(() => {
@@ -42,7 +77,7 @@ export function App() {
     return `<svg xmlns="http://w3.org" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round">\n  ${inner}\n</svg>`;
   };
 
-  const copyText = (text: string, type: 'svg' | 'jsx') => {
+  const copyText = (text: string, type: 'svg' | 'jsx' | 'url') => {
     navigator.clipboard.writeText(text);
     setCopiedType(type);
     setTimeout(() => setCopiedType(null), 1600);
@@ -58,6 +93,13 @@ export function App() {
     URL.revokeObjectURL(url);
   };
 
+  const resetAll = () => {
+    setSearch('');
+    setColor('#ccff00');
+    setSize(32);
+    setStrokeWidth(2);
+  };
+
   const SelectedComponent = selectedIcon
     ? (EliteIcons as Record<string, any>)[selectedIcon.componentName]
     : null;
@@ -68,7 +110,9 @@ export function App() {
       <header className="hero">
         <div className="hero-top">
           <span className="pill">OPEN SOURCE SVG ICONS // V1.0</span>
-          <span className="count">{list.length} VECTOR ICONS</span>
+          <span className="count">
+            SHOWING {filtered.length} / {list.length} ICONS
+          </span>
         </div>
 
         <h1 className="title">
@@ -84,6 +128,11 @@ export function App() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
+          {search && (
+            <button className="clear-search" onClick={() => setSearch('')}>
+              CLEAR
+            </button>
+          )}
           <kbd>CTRL + K</kbd>
         </div>
       </header>
@@ -91,11 +140,14 @@ export function App() {
       {/* Edge-to-Edge Blueprint Grid */}
       <main className="blueprint-grid">
         {filtered.length === 0 ? (
-          <div className="no-results">NO ICONS FOUND FOR "{search.toUpperCase()}"</div>
+          <div className="no-results">
+            NO ICONSS FOUND FOR "{search.toUpperCase()}"
+          </div>
         ) : (
           filtered.map((icon, idx) => {
             const IconComponent = (EliteIcons as Record<string, any>)[icon.componentName];
             const isSelected = selectedIcon?.name === icon.name;
+
             return (
               <div
                 key={icon.name}
@@ -112,7 +164,7 @@ export function App() {
                     }}
                     title="Quick copy raw <svg>"
                   >
-                    {copiedType === 'svg' && isSelected ? 'COPIED' : 'SVG'}
+                    SVG
                   </button>
                 </div>
 
@@ -166,6 +218,20 @@ export function App() {
           />
           <code>{strokeWidth}PX</code>
         </div>
+
+        <div className="dock-divider" />
+
+        <button
+          className="dock-btn"
+          onClick={() => copyText(window.location.href, 'url')}
+          title="Copy shareable URL with your exact color, size, stroke & search"
+        >
+          {copiedType === 'url' ? '✓ LINK COPIED' : 'SHARE URL'}
+        </button>
+
+        <button className="dock-btn reset" onClick={resetAll} title="Reset customizer">
+          RESET
+        </button>
       </div>
 
       {/* Right Slide-Over Inspector Drawer */}
@@ -228,6 +294,7 @@ export function App() {
         </div>
       )}
     </div>
+
   );
 }
 
