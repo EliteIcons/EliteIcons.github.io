@@ -15,7 +15,7 @@ const toPascalCase = (str) =>
   str.replace(/(^\w|-\w)/g, (match) => match.replace('-', '').toUpperCase());
 
 const svgFiles = fs.readdirSync(ICONS_DIR).filter((f) => f.endsWith('.svg'));
-const exportsList = [`export { createEliteIcon } from '../createEliteIcon';`];
+const exportsList = [`export { createEliteIcon } from './createEliteIcon';`];
 const metadataList = [];
 
 for (const file of svgFiles) {
@@ -23,12 +23,10 @@ for (const file of svgFiles) {
   const componentName = toPascalCase(rawName);
   const rawSvg = fs.readFileSync(path.join(ICONS_DIR, file), 'utf-8');
 
-  // 1. Optimize SVG
   const { data: cleanSvg } = optimize(rawSvg, {
     plugins: ['preset-default', 'removeDimensions'],
   });
 
-  // 2. Extract child elements as [tag, attributes] pairs
   const $ = cheerio.load(cleanSvg, { xmlMode: true });
   const iconNodes = [];
   $('svg')
@@ -37,7 +35,6 @@ for (const file of svgFiles) {
       iconNodes.push([el.tagName, el.attribs]);
     });
 
-  // 3. Write TypeScript React component
   const componentCode = `import { createEliteIcon } from '../createEliteIcon';
 
 export const ${componentName} = createEliteIcon('${componentName}', ${JSON.stringify(iconNodes)});
