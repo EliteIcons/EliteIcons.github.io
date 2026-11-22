@@ -8,11 +8,12 @@ body {
   background: #000000;
   color: #ffffff;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  -webkit-font-smoothing: antialiased;
 }
 
 .studio {
   min-height: 100vh;
-  padding-bottom: 6rem;
+  padding-bottom: 6.5rem;
 }
 
 /* Hero Section */
@@ -26,6 +27,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   font-size: 0.75rem;
   color: #888888;
   margin-bottom: 1rem;
@@ -58,7 +61,7 @@ body {
   background: #0a0a0a;
   border: 1px solid #333333;
   padding: 0.85rem 1.1rem;
-  max-width: 680px;
+  max-width: 720px;
 }
 
 .search-box:focus-within {
@@ -72,12 +75,30 @@ body {
 
 .search-box input {
   flex: 1;
+  min-width: 0;
   background: transparent;
   border: none;
   outline: none;
   color: #ffffff;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+}
+
+.clear-search {
+  background: #1a1a1a;
+  border: 1px solid #333333;
+  color: #ccff00;
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.clear-search:hover {
+  background: #ccff00;
+  color: #000000;
 }
 
 .search-box kbd {
@@ -85,6 +106,7 @@ body {
   color: #777777;
   border: 1px solid #2a2a2a;
   padding: 0.2rem 0.45rem;
+  white-space: nowrap;
 }
 
 /* Blueprint Grid */
@@ -116,6 +138,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.25rem;
 }
 
 .index {
@@ -164,7 +187,7 @@ body {
   color: #666666;
 }
 
-/* Floating Bottom Control Dock */
+/* Floating Bottom Control Dock (Desktop Normal Layout) */
 .dock {
   position: fixed;
   bottom: 1.25rem;
@@ -172,20 +195,21 @@ body {
   transform: translateX(-50%);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   background: #0d0d0d;
   border: 1px solid #333333;
-  padding: 0.65rem 1.25rem;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85);
+  padding: 0.7rem 1.25rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.9);
   z-index: 30;
-  max-width: 95vw;
-  overflow-x: auto;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
 }
 
 .dock-item {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.55rem;
   font-size: 0.75rem;
   color: #888888;
   white-space: nowrap;
@@ -193,14 +217,26 @@ body {
 
 .dock-item code {
   color: #ccff00;
+  min-width: 44px;
 }
 
 .dock-item input[type='color'] {
+  -webkit-appearance: none;
+  appearance: none;
   width: 24px;
   height: 24px;
   border: 1px solid #444444;
   background: none;
   cursor: pointer;
+  padding: 0;
+}
+
+.dock-item input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.dock-item input[type='color']::-webkit-color-swatch {
+  border: none;
 }
 
 .dock-item input[type='range'] {
@@ -213,6 +249,99 @@ body {
   width: 1px;
   height: 20px;
   background: #262626;
+  flex-shrink: 0;
+}
+
+.dock-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #141a00;
+  border: 1px solid #ccff00;
+  color: #ccff00;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.dock-btn:hover {
+  background: #ccff00;
+  color: #000000;
+}
+
+.dock-btn.reset {
+  background: #141414;
+  border-color: #444444;
+  color: #aaaaaa;
+}
+
+.dock-btn.reset:hover {
+  background: #262626;
+  border-color: #666666;
+  color: #ffffff;
+}
+
+/* Mobile & Tablet Responsive Adjustments (Only kicks in under 768px) */
+@media (max-width: 768px) {
+  .studio {
+    padding-bottom: 9.5rem;
+  }
+
+  .hero {
+    padding: 1.75rem 1.25rem 1.5rem;
+  }
+
+  .search-box kbd {
+    display: none;
+  }
+
+  .blueprint-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .cell {
+    height: 135px;
+    padding: 0.75rem;
+  }
+
+  .dock {
+    bottom: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.65rem 0.75rem;
+    padding: 0.75rem 1rem;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .dock-divider {
+    display: none;
+  }
+
+  .dock-item {
+    flex: 1 1 45%;
+    justify-content: space-between;
+  }
+
+  .dock-item input[type='range'] {
+    width: 75px;
+  }
+
+  .dock-btn {
+    flex: 1 1 45%;
+    text-align: center;
+    padding: 0.5rem 0.75rem;
+  }
 }
 
 /* Slide-Over Inspector Drawer */
@@ -233,7 +362,7 @@ body {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.15rem;
   overflow-y: auto;
 }
 
@@ -254,6 +383,7 @@ body {
 }
 
 .close-btn {
+  appearance: none;
   background: #141414;
   border: 1px solid #333333;
   color: #ffffff;
@@ -262,8 +392,13 @@ body {
   cursor: pointer;
 }
 
+.close-btn:hover {
+  border-color: #ccff00;
+  color: #ccff00;
+}
+
 .inspector-canvas {
-  height: 160px;
+  height: 150px;
   display: grid;
   place-items: center;
   border: 1px solid #222222;
@@ -286,6 +421,7 @@ body {
 }
 
 .action-btn {
+  appearance: none;
   background: #161616;
   border: 1px solid #333333;
   color: #ffffff;
@@ -296,9 +432,19 @@ body {
   cursor: pointer;
 }
 
+.action-btn:hover {
+  border-color: #ccff00;
+  color: #ccff00;
+}
+
 .action-btn.primary {
   background: #ccff00;
   border-color: #ccff00;
+  color: #000000;
+}
+
+.action-btn.primary:hover {
+  background: #d9ff33;
   color: #000000;
 }
 
@@ -314,6 +460,7 @@ body {
 }
 
 .download-full {
+  appearance: none;
   margin-top: auto;
   padding: 0.85rem;
   background: transparent;
