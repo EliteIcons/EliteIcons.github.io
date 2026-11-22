@@ -30,19 +30,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Generate Icons & Build Packages
         run: pnpm build
-
-      # Optional: Uncomment below after adding NPM_TOKEN to GitHub Repo Secrets
-      # - name: Publish to npm
-      #   run: pnpm --filter elite-icons-react publish --no-git-checks
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
