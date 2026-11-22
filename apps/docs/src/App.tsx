@@ -67,8 +67,8 @@ export function App() {
       {/* Top Hero Header */}
       <header className="hero">
         <div className="hero-top">
-          <span className="pill">OPEN SOURCE SVG SYSTEM // V1.0</span>
-          <span className="count">{list.length} VECTOR GLYPHS</span>
+          <span className="pill">OPEN SOURCE SVG ICONS // V1.0</span>
+          <span className="count">{list.length} VECTOR ICONS</span>
         </div>
 
         <h1 className="title">
@@ -80,7 +80,7 @@ export function App() {
           <input
             ref={searchRef}
             type="text"
-            placeholder="TYPE TO FILTER GLYPHS..."
+            placeholder="TYPE TO FILTER ICONS..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -91,7 +91,7 @@ export function App() {
       {/* Edge-to-Edge Blueprint Grid */}
       <main className="blueprint-grid">
         {filtered.length === 0 ? (
-          <div className="no-results">NO GLYPHS FOUND FOR "{search.toUpperCase()}"</div>
+          <div className="no-results">NO ICONS FOUND FOR "{search.toUpperCase()}"</div>
         ) : (
           filtered.map((icon, idx) => {
             const IconComponent = (EliteIcons as Record<string, any>)[icon.componentName];
@@ -174,7 +174,7 @@ export function App() {
           <div className="drawer" onClick={(e) => e.stopPropagation()}>
             <div className="drawer-header">
               <div>
-                <span className="drawer-tag">GLYPH INSPECTOR</span>
+                <span className="drawer-tag">ICON INSPECTOR</span>
                 <h3>{selectedIcon.name}</h3>
               </div>
               <button className="close-btn" onClick={() => setSelectedIcon(null)}>
