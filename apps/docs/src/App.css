@@ -1,8 +1,331 @@
-.container { max-width: 1100px; margin: 0 auto; padding: 2rem; font-family: system-ui, sans-serif; }
-.header { text-align: center; margin-bottom: 2rem; }
-.controls { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; align-items: center; }
-.controls input[type="search"] { flex: 1; min-width: 240px; padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 8px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem; }
-.card { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 1.25rem 0.5rem; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; cursor: pointer; transition: border-color 0.15s; }
-.card:hover { border-color: #111; }
-.card span { font-size: 0.75rem; color: #555; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000000;
+  color: #ffffff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.studio {
+  min-height: 100vh;
+  padding-bottom: 6rem;
+}
+
+/* Hero Section */
+.hero {
+  padding: 2.5rem 2rem 2rem;
+  border-bottom: 1px solid #222222;
+  background: radial-gradient(circle at top right, #141a00 0%, #000000 55%);
+}
+
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #888888;
+  margin-bottom: 1rem;
+}
+
+.pill {
+  color: #ccff00;
+  border: 1px solid #3a4700;
+  background: #141a00;
+  padding: 0.25rem 0.6rem;
+}
+
+.title {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 1.75rem;
+}
+
+.title .accent {
+  color: #ccff00;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #0a0a0a;
+  border: 1px solid #333333;
+  padding: 0.85rem 1.1rem;
+  max-width: 680px;
+}
+
+.search-box:focus-within {
+  border-color: #ccff00;
+}
+
+.prompt {
+  color: #ccff00;
+  font-weight: 700;
+}
+
+.search-box input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.search-box kbd {
+  font-size: 0.7rem;
+  color: #777777;
+  border: 1px solid #2a2a2a;
+  padding: 0.2rem 0.45rem;
+}
+
+/* Blueprint Grid */
+.blueprint-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  border-left: 1px solid #222222;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 155px;
+  padding: 0.85rem;
+  border-right: 1px solid #222222;
+  border-bottom: 1px solid #222222;
+  background: #000000;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.cell:hover,
+.cell.selected {
+  background: #0f1205;
+}
+
+.cell-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.index {
+  font-size: 0.7rem;
+  color: #555555;
+}
+
+.quick-copy {
+  background: #111111;
+  border: 1px solid #333333;
+  color: #aaaaaa;
+  font-family: inherit;
+  font-size: 0.65rem;
+  padding: 0.15rem 0.4rem;
+  cursor: pointer;
+}
+
+.quick-copy:hover {
+  border-color: #ccff00;
+  color: #ccff00;
+}
+
+.glyph-stage {
+  display: grid;
+  place-items: center;
+  flex: 1;
+}
+
+.cell-name {
+  font-size: 0.78rem;
+  color: #cccccc;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cell:hover .cell-name {
+  color: #ccff00;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #666666;
+}
+
+/* Floating Bottom Control Dock */
+.dock {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #0d0d0d;
+  border: 1px solid #333333;
+  padding: 0.65rem 1.25rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85);
+  z-index: 30;
+  max-width: 95vw;
+  overflow-x: auto;
+}
+
+.dock-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  color: #888888;
+  white-space: nowrap;
+}
+
+.dock-item code {
+  color: #ccff00;
+}
+
+.dock-item input[type='color'] {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #444444;
+  background: none;
+  cursor: pointer;
+}
+
+.dock-item input[type='range'] {
+  width: 85px;
+  accent-color: #ccff00;
+  cursor: pointer;
+}
+
+.dock-divider {
+  width: 1px;
+  height: 20px;
+  background: #262626;
+}
+
+/* Slide-Over Inspector Drawer */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 50;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.drawer {
+  width: min(440px, 100vw);
+  height: 100%;
+  background: #080808;
+  border-left: 1px solid #2a2a2a;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  overflow-y: auto;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.drawer-tag {
+  font-size: 0.68rem;
+  color: #ccff00;
+}
+
+.drawer-header h3 {
+  font-size: 1.35rem;
+  margin-top: 0.2rem;
+}
+
+.close-btn {
+  background: #141414;
+  border: 1px solid #333333;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.inspector-canvas {
+  height: 160px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #222222;
+  background-image: radial-gradient(#222222 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.code-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: #888888;
+}
+
+.action-btn {
+  background: #161616;
+  border: 1px solid #333333;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+}
+
+.action-btn.primary {
+  background: #ccff00;
+  border-color: #ccff00;
+  color: #000000;
+}
+
+.code-block {
+  background: #000000;
+  border: 1px solid #222222;
+  padding: 0.85rem;
+  font-size: 0.78rem;
+  color: #d4d4d4;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.download-full {
+  margin-top: auto;
+  padding: 0.85rem;
+  background: transparent;
+  border: 1px solid #ccff00;
+  color: #ccff00;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.download-full:hover {
+  background: #ccff00;
+  color: #000000;
+}
