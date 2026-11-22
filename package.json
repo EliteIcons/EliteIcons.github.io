@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "generate": "node scripts/build-icons.mjs",
-    "build:pkg": "pnpm --filter elite-icons-react build",
-    "build:docs": "pnpm --filter docs build",
+    "build:pkg": "pnpm --dir packages/elite-icons-react build",
+    "build:docs": "pnpm --dir apps/docs build",
     "build": "pnpm generate && pnpm build:pkg && pnpm build:docs"
   },
   "devDependencies": {
