@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EliteIcons — Crisp, Open-Source React Icons</title>
+    <script>
+      window.addEventListener('error', function (e) {
+        document.body.innerHTML +=
+          '<pre style="color:red;padding:16px;font-family:monospace;white-space:pre-wrap;">' +
+          'Error: ' + e.message + '\nFile: ' + (e.filename || '') +
+          '</pre>';
+      });
+      window.addEventListener('unhandledrejection', function (e) {
+        document.body.innerHTML +=
+          '<pre style="color:red;padding:16px;font-family:monospace;white-space:pre-wrap;">' +
+          'Promise Error: ' + e.reason +
+          '</pre>';
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
