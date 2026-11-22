@@ -11,8 +11,16 @@ const DOCS_META = path.resolve('apps/docs/src/iconsMeta.json');
 fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.mkdirSync(path.dirname(DOCS_META), { recursive: true });
 
-const toPascalCase = (str) =>
-  str.replace(/(^\w|-\w)/g, (match) => match.replace('-', '').toUpperCase());
+// Strips spaces, apostrophes, and invalid characters so TypeScript never breaks
+const toPascalCase = (str) => {
+  const cleaned = str
+    .replace(/[^a-zA-Z0-9]+/g, ' ')
+    .trim()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join('');
+  return /^[0-9]/.test(cleaned) ? `Icon${cleaned}` : cleaned;
+};
 
 const svgFiles = fs.readdirSync(ICONS_DIR).filter((f) => f.endsWith('.svg'));
 const exportsList = [`export { createEliteIcon } from './createEliteIcon';`];
