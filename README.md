@@ -3,7 +3,7 @@
 EliteIcons is an open-source SVG icon library and interactive icon studio. It combines a curated collection of SVG assets with a React component package and a searchable browser-based documentation app.
 
 **Website:** [https://EliteIcons.github.io/](https://EliteIcons.github.io/)  
-**Repository:** [EliteIcons/EliteIcons.github.io](https://github.com/EliteIcons/EliteIcons.github.io)
+**Repository:** [EliteIcons/EliteIcons.github.io](https://github.com/EliteIcons/EliteIcons.github.io) 
 
 ## Features
 
@@ -230,4 +230,4 @@ Please open an issue or submit a pull request with a clear description of the pr
 
 ## License
 
-No license file is currently included in this repository. Review the repository owner's terms before distributing or using the icon collection in a commercial project.
+This Project is licensed under the **ISC License**, Please view it! 🎉
