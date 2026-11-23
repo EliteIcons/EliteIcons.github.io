@@ -50,21 +50,6 @@ EliteIcons is an open-source SVG icon library and interactive icon studio. It co
 └── pnpm-workspace.yaml        # pnpm workspace configuration
 ```
 
-## How It Works
-
-The SVG files in `icons/` are the source of truth.
-
-The generation script:
-
-1. Reads every `.svg` file in `icons/`.
-2. Converts the filename into a valid PascalCase React component name.
-3. Optimizes the SVG with SVGO.
-4. Parses the SVG children with Cheerio.
-5. Generates individual React icon components.
-6. Creates `packages/elite-icons-react/src/index.ts` exports.
-7. Creates `apps/docs/src/iconsMeta.json` for the icon browser.
-
-For example, `arrow-right.svg` is generated as an `ArrowRight` React component.
 
 ## Prerequisites
 
