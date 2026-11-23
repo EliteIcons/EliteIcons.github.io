@@ -1,0 +1,36 @@
+name: Validate Community Icon PR
+
+on:
+  pull_request:
+    paths:
+      - 'icons/**'
+
+jobs:
+  validate-icons:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+
+      - name: Check SVG ViewBox & Formatting
+        run: |
+          for file in icons/*.svg; do
+            if ! grep -q 'viewBox="0 0 24 24"' "$file"; then
+              echo "Error: $file must use viewBox=\"0 0 24 24\""
+              exit 1
+            fi
+          done
+          echo "All SVGs passed 24x24 validation!"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Test Full Build
+        run: pnpm install --no-frozen-lockfile && pnpm build
