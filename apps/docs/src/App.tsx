@@ -110,6 +110,8 @@ export function App() {
       <header className="hero">
         <div className="hero-top">
           <span className="pill">OPEN SOURCE SVG ICONS // V1.0</span>
+          <a href="https://eliteicons.github.io/Icon-Studio" className="dock-btn">OPEN ICON STUDIO ↗</a>
+
           <span className="count">
             SHOWING {filtered.length} / {list.length} ICONS
           </span>
