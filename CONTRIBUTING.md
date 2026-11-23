@@ -1,6 +1,6 @@
 # Contributing to EliteIcons
 
-EliteIcons is an open-source, community-maintained icon library. Anyone can propose or submit new SVG icons!
+EliteIcons is an open-source, community-maintained SVG icon library. Anyone can propose or submit new icons!
 
 ## How to Submit a New Icon
 
@@ -15,4 +15,6 @@ EliteIcons is an open-source, community-maintained icon library. Anyone can prop
 3. **Add Your File:**
    - Place your `.svg` file inside the `icons/` folder using lowercase `kebab-case` naming (e.g., `arrow-up-right.svg`).
 4. **Open a Pull Request:**
-   - Once merged into `main`, GitHub Actions automatically compiles the React component, publishes the package, and updates the live gallery! (Not yet! )
+   - Once merged into `main`, GitHub Actions automatically validates the SVG and updates the live gallery!
+
+> Thanks for contributing to the project!
