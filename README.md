@@ -1,5 +1,9 @@
 # EliteIcons
 
+<p align="center">
+  <img src="logo.png" alt="EliteIcons Logo" width="160">
+</p>
+
 EliteIcons is an open-source SVG icon library and interactive icon studio. It combines a curated collection of SVG assets with a React component package and a searchable browser-based documentation app.
 
 **Website:** [https://EliteIcons.github.io/](https://EliteIcons.github.io/)  
