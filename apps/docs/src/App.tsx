@@ -141,7 +141,7 @@ export function App() {
       <main className="blueprint-grid">
         {filtered.length === 0 ? (
           <div className="no-results">
-            NO ICONSS FOUND FOR "{search.toUpperCase()}"
+            NO ICONS FOUND FOR "{search.toUpperCase()}"
           </div>
         ) : (
           filtered.map((icon, idx) => {
