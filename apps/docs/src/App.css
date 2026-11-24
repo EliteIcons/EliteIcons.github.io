@@ -476,3 +476,9 @@ body {
   background: #ccff00;
   color: #000000;
 }
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
