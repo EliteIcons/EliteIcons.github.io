@@ -125,6 +125,13 @@ export function App() {
   >
     ICON STUDIO ↗
   </a>
+    <a
+    href="https://eliteicons.github.io/Showcase/"
+    className="dock-btn"
+    style={{ textDecoration: 'none' }}
+  >
+    SHOWCASE 🡕
+  </a>         
 </div>
 
 
