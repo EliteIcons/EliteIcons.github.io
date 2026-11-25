@@ -1,0 +1,36 @@
+name: ⚡ Request or Claim a New Icon
+description: Missing a glyph? Pitch it here or claim it for a quick PR!
+title: "[ICON]: "
+labels: ["icon-request", "good first issue"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 👋 Welcome to the EliteIcons 300+ Milestone Quest!
+        We are on a mission to pass Feather Icons and hit **300+ crisp `24×24` SVG glyphs**—and we want your ideas!
+
+  - type: input
+    id: icon-name
+    attributes:
+      label: 🏷️ Icon Name (kebab-case)
+      description: Lowercase with hyphens, just like how it will live in `icons/`
+      placeholder: e.g., rocket-launch, coffee-cup, crescent-moon
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 🎨 What should it look like?
+      description: Describe the shape, vibe, or where youd use it in an app!
+      placeholder: A sleek 24x24 coffee mug with two little steam waves rising on top.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: claim
+    attributes:
+      label: 🛠️ Want to draw it yourself?
+      options:
+        - label: "I want to draw this in Icon Studio (eliteicons.github.io/Icon-Studio/) and open a PR! 🚀"
+        - label: "I'm just pitching the idea—someone else can grab it! 💡"
